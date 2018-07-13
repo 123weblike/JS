@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    var a = ['A', 'B', 'C'];
+    a.forEach(function (element) {
+        console.log(element);
+    });
+    var b = ['A', 'B', 'C'];
+    b.forEach(function () {
+        console.log(arguments);
+    });
+
+    function foo(a, b) {
+        var i, rest = [];
+        if (arguments.length > 2) {
+            for (i = 2; i<arguments.length; i++) {
+                rest.push(arguments[i]);
+            }
+        }
+        console.log('a = ' + a);
+        console.log('b = ' + b);
+        console.log(rest);
+    }
+    foo(1,2)
+
+    function foo1(a, b, ...rest) {
+        console.log('a = ' + a);
+        console.log('b = ' + b);
+        console.log(rest);
+    }
+
+    foo1(1, 2, 3, 4, 5);
+
+
+    for(var i=0;i<10;i++){
+        console.log(i);
+    }
+    console.log(i); //10
+    for(let j=0;j<10;j++){
+        console.log(j);
+    }
+    console.log(j);  //报错
+</script>
+</html>
