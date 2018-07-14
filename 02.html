@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function getAge() {
+        var y = new Date().getFullYear();
+        return y - this.birth;
+    }
+
+    var xiaoming = {
+        name: '小明',
+        birth: 1990,
+        age: getAge
+    };
+
+    xiaoming.age(); // 25, 正常结果
+    getAge(); // NaN
+    //console.log(xiaoming.age())
+    //如果以对象的方法形式调用，比如xiaoming.age()，该函数的this指向被调用的对象，也就是xiaoming，这是符合我们预期的。
+    //如果单独调用函数，比如getAge()，此时，该函数的this指向全局对象，也就是window。
+    //ECMA决定，在strict模式下让函数的this指向undefined
+
+    'use strict';  //严格模式
+
+    var xiaoming1 = {
+        name: '小明',
+        birth: 1990,
+        age: function () {
+            var that = this; // 在方法内部一开始就捕获this
+            function getAgeFromBirth() {
+                var y = new Date().getFullYear();
+                return y - that.birth; // 用that而不是this
+            }
+            return getAgeFromBirth();
+        }
+    };
+
+    xiaoming1.age(); // 28
+   console.log(xiaoming1.age())  //28
+</script>
+</html>
