@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //generator还有另一个巨大的好处，就是把异步回调代码变成“同步”代码。这个好处要等到后面学了AJAX以后才能体会到。
+   //没有generator之前的黑暗时代，用AJAX时需要这么写代码：
+ajax('http://url-1', data1, function (err, result) {
+    if (err) {
+        return handle(err);
+    }
+    ajax('http://url-2', data2, function (err, result) {
+        if (err) {
+            return handle(err);
+        }
+        ajax('http://url-3', data3, function (err, result) {
+            if (err) {
+                return handle(err);
+            }
+            return success(result);
+        });
+    });
+});
+    //回调越多，代码越难看。
+    //有了generator的美好时代，用AJAX时可以这么写：
+try {
+    r1 = yield ajax('http://url-1', data1);
+    r2 = yield ajax('http://url-2', data2);
+    r3 = yield ajax('http://url-3', data3);
+    success(r3);
+}
+catch (err) {
+    handle(err);
+}
+    //看上去是同步的代码，实际执行是异步的。
+</script>
+</html>
