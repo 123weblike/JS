@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //高阶函数英文叫Higher-order function。那么什么是高阶函数？
+    //JavaScript的函数其实都指向某个变量。既然变量可以指向函数，函数的参数能接收变量，那么一个函数就可以接收另一个函数作为参数，这种函数就称之为高阶函数。
+    //一个最简单的高阶函数：
+/*function add(x, y, f) {
+    return f(x) + f(y);
+}*/
+    //当我们调用add(-5, 6, Math.abs)时，参数x，y和f分别接收-5，6和函数Math.abs，根据函数定义，我们可以推导计算过程为：
+    //x = -5;
+    //y = 6;
+    //f = Math.abs;
+    //f(x) + f(y) ==> Math.abs(-5) + Math.abs(6) ==> 11;
+    //return 11;
+
+    'use strict';
+
+    function add(x, y, f) {
+        return f(x) + f(y);
+    }
+    var x = add(-5, 6, Math.abs); // 11
+    console.log(x);
+
+    //map/reduce
+    //由于map()方法定义在JavaScript的Array中，我们调用Array的map()方法，传入我们自己的函数，就得到了一个新的Array作为结果：
+    'use strict';
+    function pow(x) {
+        return x * x;
+    }
+    var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    var results = arr.map(pow); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
+    console.log(results);
+    var String=results.map(String);
+    console.log(String);
+
+    //请把用户输入的不规范的英文名字，变为首字母大写，其他小写的规范名字。输入：['adam', 'LISA', 'barT']，输出：['Adam', 'Lisa', 'Bart']。
+    'use strict';
+    function normalize(arr) {
+        return arr.map(function(x){
+            return x.toUpperCase().substring(0,1) + x.toLowerCase().substring(1);
+        });
+    }
+    var arr2=['adam', 'LISA', 'barT'];
+    console.log(normalize(arr2));//['Adam', 'Lisa', 'Bart']
+    //reduce
+    //再看reduce的用法。Array的reduce()把一个函数作用在这个Array的[x1, x2, x3...]上，这个函数必须接收两个参数，reduce()把结果继续和序列的下一个元素做累积计算，其效果就是：
+    //[x1, x2, x3, x4].reduce(f) = f(f(f(x1, x2), x3), x4)
+    var arr1 = [1, 3, 5, 7, 9];
+    var cc=arr1.reduce(function (x, y) {
+        return x + y;
+    });
+    console.log(cc);//25
+
+    'use strict';
+
+    function product(arr) {
+       return  arr.reduce(function(x, y){
+                 return x * y;
+
+        })
+    }
+    var aa=product([1,2,3,4]);
+    console.log(aa);//24
+
+    //filter
+    //filter也是一个常用的操作，它用于把Array的某些元素过滤掉，然后返回剩下的元素。
+    //和map()类似，Array的filter()也接收一个函数。和map()不同的是，filter()把传入的函数依次作用于每个元素，然后根据返回值是true还是false决定保留还是丢弃该元素。
+    //例如，在一个Array中，删掉偶数，只保留奇数，可以这么写：
+    var arr2 = [1, 2, 4, 5, 6, 9, 10, 15];
+    var r = arr2.filter(function (x) {
+        return x % 2 !== 0;
+    });
+    console.log(r);// [1, 5, 9, 15]
+
+    //把一个Array中的空字符串删掉，可以这么写：
+    var arr3 = ['A', '', 'B', null, undefined, 'C', '  '];
+    var r1 = arr3.filter(function (s) {
+        return s && s.trim(); // 注意：IE9以下的版本没有trim()方法
+    });
+    console.log(r1);// ['A', 'B', 'C']
+    //回调函数
+    //filter()接收的回调函数，其实可以有多个参数。通常我们仅使用第一个参数，表示Array的某个元素。回调函数还可以接收另外两个参数，表示元素的位置和数组本身：
+    var arr4 = ['A', 'B', 'C','C'];
+    var r2 = arr4.filter(function (element, index, self) {
+        console.log(element); // 依次打印'A', 'B', 'C'
+        console.log(index); // 依次打印0, 1, 2
+        console.log(self); // self就是变量arr
+        return true;
+    });
+    //indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。
+
+    var m=[1,2,3,2,4,3,4,5],h;
+    h=m.filter(function(element,index,self){
+        return self.indexOf(element)===index;
+    })
+    console.log(h);
+    console.log(h.toString());
+</script>
+</html>
